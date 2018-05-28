@@ -1,0 +1,53 @@
+<?php
+
+
+
+    $db = new PDO('mysql:host=localhost;dbname=classicmodels', 'root', 'troiswa');
+    $db->exec('SET NAMES UTF8');
+
+    $sql = "SELECT orderNumber, orderDate, shippedDate, status FROM `orders`";
+
+    $statement = $db->prepare($sql);
+    $statement->execute();
+    $orders = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+    // print_r($orders);
+
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>PHP</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <section>
+            <h1>Bons de commande</h1>
+
+            <table class="standard-table">
+                <caption>Liste des commandes</caption>
+                <thead>
+                    <tr>
+                        <th>Commande</th>
+                        <th>Date de la commande</th>
+                        <th>Date de livraison</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                    <?php foreach ($orders as $donnees): ?>
+                    <td>
+                        <a href="http://localhost/php/bonDeCommande/public/bdm.php?orderNumber=<?= $donnees['orderNumber']?>"><?= $donnees['orderNumber']?></a>
+                        </td>
+                         <td><?= $donnees['orderDate']?></td>
+                        <td><?= $donnees['shippedDate']?></td>
+                         <td><?= $donnees['status']?></td>
+                     </tr>
+                <?php endforeach; ?>
+    
